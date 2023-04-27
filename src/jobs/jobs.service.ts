@@ -21,14 +21,13 @@ export class JobsService {
     };
   }
   async createJob(data, id: string) {
-    // set every jobs to the user
-
-    return await this.prisma.jobs.create({
+    await this.prisma.jobs.create({
       data: { ...data, user: { connect: { id } } },
     });
+    return { status: 'Done', message: 'Job created successfully' };
   }
   async updateJob(id: string, data: NewJobDto) {
-    return await this.prisma.jobs.update({
+    await this.prisma.jobs.update({
       where: {
         id,
       },
@@ -36,12 +35,14 @@ export class JobsService {
         ...data,
       },
     });
+    return { status: 'Done', message: 'Job updated successfully' };
   }
   async deleteJob(id: string) {
-    return await this.prisma.jobs.delete({
+    await this.prisma.jobs.delete({
       where: {
         id,
       },
     });
+    return { status: 'Done', message: 'Job deleted successfully' };
   }
 }
