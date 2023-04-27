@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
@@ -22,10 +23,15 @@ model User {
 
 model Jobs {
   id        String   @id @default(uuid())
-  title     String
-  content   String
+  role      String
+  company   String
+  workType  String
+  location  String
+  status    String   @default("Appled")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
+  user      User?    @relation(fields: [userID], references: [id])
+  userID    String?
+
+  @@index([userID])
 }
