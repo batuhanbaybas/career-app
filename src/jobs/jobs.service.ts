@@ -7,42 +7,58 @@ export class JobsService {
   constructor(private prisma: PrismaService) {}
 
   async getAllJobs(page = 1) {
-    return {
-      data: await this.prisma.jobs.findMany({
-        skip: (page - 1) * 10,
-        take: 10,
-        orderBy: {
-          createdAt: 'desc',
-        },
-        include: {
-          user: true,
-        },
-      }),
-    };
+    try {
+      return {
+        data: await this.prisma.jobs.findMany({
+          skip: (page - 1) * 10,
+          take: 10,
+          orderBy: {
+            createdAt: 'desc',
+          },
+          include: {
+            user: true,
+          },
+        }),
+      };
+    } catch (error) {
+      return { status: 'Error', message: error.message };
+    }
   }
   async createJob(data, id: string) {
-    await this.prisma.jobs.create({
-      data: { ...data, user: { connect: { id } } },
-    });
-    return { status: 'Done', message: 'Job created successfully' };
+    try {
+      await this.prisma.jobs.create({
+        data: { ...data, user: { connect: { id } } },
+      });
+      return { status: 'Done', message: 'Job created successfully' };
+    } catch (error) {
+      return { status: 'Error', message: error.message };
+    }
   }
   async updateJob(id: string, data: NewJobDto) {
-    await this.prisma.jobs.update({
-      where: {
-        id,
-      },
-      data: {
-        ...data,
-      },
-    });
-    return { status: 'Done', message: 'Job updated successfully' };
+    try {
+      await this.prisma.jobs.update({
+        where: {
+          id,
+        },
+        data: {
+          ...data,
+        },
+      });
+      return { status: 'Done', message: 'Job updated successfully' };
+    } catch (error) {
+      return { status: 'Error', message: error.message };
+    }
   }
   async deleteJob(id: string) {
-    await this.prisma.jobs.delete({
-      where: {
-        id,
-      },
-    });
-    return { status: 'Done', message: 'Job deleted successfully' };
+    try {
+      await this.prisma.jobs.delete({
+        where: {
+          id,
+        },
+      });
+      return { status: 'Done', message: 'Job deleted successfully' };
+    } catch (error) {
+      return { status: 'Error', message: error.message };
+    }
   }
 }
