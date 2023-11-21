@@ -19,8 +19,8 @@ import { NewJobDto } from './dto/new-job.dto';
 export class JobsController {
   constructor(private jobsService: JobsService) {}
   @Get('all')
-  async getAllJobs(@Query('page') page: number) {
-    return await this.jobsService.getAllJobs(page);
+  async getAllJobs(@Req() req: any, @Query('page') page: number) {
+    return await this.jobsService.getAllJobs(page, req.user.id);
   }
   @Post('new')
   async createJob(@Req() req: any, @Body() data: NewJobDto) {

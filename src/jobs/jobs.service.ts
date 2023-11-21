@@ -6,9 +6,12 @@ import { NewJobDto } from './dto/new-job.dto';
 export class JobsService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllJobs(page = 1) {
+  async getAllJobs(page = 1, id: string) {
     try {
       const jobs = await this.prisma.jobs.findMany({
+        where: {
+          userID: id,
+        },
         skip: (page - 1) * 10,
         take: 10,
         orderBy: {

@@ -21,17 +21,10 @@ model User {
   jobs      Jobs[]
 }
 
-enum status {
-  Applied
-  Interviewing
-  Offer
-  Rejecte
-}
-
 model Jobs {
   id        String   @id @default(uuid())
   role      String
-  status    String
+  status    String?  @default("Applied")
   company   String
   workType  String
   location  String
