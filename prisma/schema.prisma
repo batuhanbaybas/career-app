@@ -26,25 +26,24 @@ model JobStatus {
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  jobId     String
-  job       Jobs?    @relation(fields: [jobId], references: [id])
-
-  @@index([jobId])
+  jobs      Jobs[]
 }
 
 model Jobs {
-  id        String      @id @default(uuid())
-  role      String
-  company   String
-  workType  String
-  location  String
-  salary    String?     @default("")
-  applyLink String?     @default("")
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  userID    String
-  jobStatus JobStatus[]
-  user      User?       @relation(fields: [userID], references: [id])
+  id          String     @id @default(uuid())
+  role        String
+  company     String
+  workType    String
+  location    String
+  salary      String?    @default("")
+  applyLink   String?    @default("")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userID      String
+  jobStatusId String?
+  user        User?      @relation(fields: [userID], references: [id])
+  JobStatus   JobStatus? @relation(fields: [jobStatusId], references: [id])
 
+  @@index([jobStatusId])
   @@index([userID])
 }
