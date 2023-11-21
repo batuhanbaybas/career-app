@@ -7,23 +7,26 @@ export class JobsService {
   constructor(private prisma: PrismaService) {}
 
   async getAllJobs(page = 1) {
-    const jobs = await this.prisma.jobs.findMany({
-      skip: (page - 1) * 10,
-      take: 10,
-      orderBy: {
-        createdAt: 'desc',
-      },
-      include: {
-        user: true,
-      },
-    });
     try {
+      const jobs = await this.prisma.jobs.findMany({
+        skip: (page - 1) * 10,
+        take: 10,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      // delete all user passwords from the response
+      await jobs.map((job) => delete job.user.password);
       return {
         success: true,
         data: jobs,
       };
     } catch (error) {
-      return { status: 'Error', message: error.message };
+      return { status: false, message: error.message };
     }
   }
   async createJob(data, id: string) {
@@ -31,11 +34,7 @@ export class JobsService {
       await this.prisma.jobs.create({
         data: {
           ...data,
-          user: {
-            connect: {
-              id,
-            },
-          },
+          userID: id,
         },
       });
       return { success: true, message: 'Job created successfully' };
@@ -53,9 +52,9 @@ export class JobsService {
           ...data,
         },
       });
-      return { status: 'Done', message: 'Job updated successfully' };
+      return { status: true, message: 'Job updated successfully' };
     } catch (error) {
-      return { status: 'Error', message: error.message };
+      return { status: false, message: error.message };
     }
   }
   async deleteJob(id: string) {
@@ -65,9 +64,9 @@ export class JobsService {
           id,
         },
       });
-      return { status: 'Done', message: 'Job deleted successfully' };
+      return { status: true, message: 'Job deleted successfully' };
     } catch (error) {
-      return { status: 'Error', message: error.message };
+      return { status: false, message: error.message };
     }
   }
 }

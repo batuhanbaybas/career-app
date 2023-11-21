@@ -14,24 +14,31 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  name      String?
+  name      String?  @default("")
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   jobs      Jobs[]
 }
 
+enum status {
+  Applied
+  Interviewing
+  Offer
+  Rejecte
+}
+
 model Jobs {
   id        String   @id @default(uuid())
   role      String
+  status    String
   company   String
   workType  String
   location  String
-  status    String   @default("Applied")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userID    String
   user      User?    @relation(fields: [userID], references: [id])
-  userID    String?
 
   @@index([userID])
 }
