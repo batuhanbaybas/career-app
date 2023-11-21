@@ -27,7 +27,7 @@ model JobStatus {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   jobId     String
-  job       Jobs     @relation(fields: [jobId], references: [id])
+  job       Jobs?    @relation(fields: [jobId], references: [id])
 
   @@index([jobId])
 }
