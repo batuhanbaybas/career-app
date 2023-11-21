@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
@@ -22,7 +22,7 @@ export class UserController {
     return user;
   }
 
-  @Patch(':id')
+  @Put(':id')
   editMe(@Param('id') id: string, @Body() data: UpdateUserDto) {
     return this.userService.updateMe(id, data);
   }
