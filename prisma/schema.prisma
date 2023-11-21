@@ -18,7 +18,7 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  posts     Jobs[]
+  jobs      Jobs[]
 }
 
 model Jobs {
@@ -27,7 +27,7 @@ model Jobs {
   company   String
   workType  String
   location  String
-  status    String   @default("Appled")
+  status    String   @default("Applied")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User?    @relation(fields: [userID], references: [id])

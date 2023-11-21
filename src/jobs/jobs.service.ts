@@ -7,18 +7,20 @@ export class JobsService {
   constructor(private prisma: PrismaService) {}
 
   async getAllJobs(page = 1) {
+    const jobs = await this.prisma.jobs.findMany({
+      skip: (page - 1) * 10,
+      take: 10,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        user: true,
+      },
+    });
     try {
       return {
-        data: await this.prisma.jobs.findMany({
-          skip: (page - 1) * 10,
-          take: 10,
-          orderBy: {
-            createdAt: 'desc',
-          },
-          include: {
-            user: true,
-          },
-        }),
+        success: true,
+        data: jobs,
       };
     } catch (error) {
       return { status: 'Error', message: error.message };
@@ -27,11 +29,18 @@ export class JobsService {
   async createJob(data, id: string) {
     try {
       await this.prisma.jobs.create({
-        data: { ...data, user: { connect: { id } } },
+        data: {
+          ...data,
+          user: {
+            connect: {
+              id,
+            },
+          },
+        },
       });
-      return { status: 'Done', message: 'Job created successfully' };
+      return { success: true, message: 'Job created successfully' };
     } catch (error) {
-      return { status: 'Error', message: error.message };
+      return { success: false, message: error.message };
     }
   }
   async updateJob(id: string, data: NewJobDto) {

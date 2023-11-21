@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -15,10 +15,10 @@ import { JobsService } from './jobs.service';
 import { NewJobDto } from './dto/new-job.dto';
 
 @UseGuards(JwtAuthGuard)
-@Controller('jobs')
+@Controller('job')
 export class JobsController {
   constructor(private jobsService: JobsService) {}
-  @Get()
+  @Get('all')
   async getAllJobs(@Query('page') page: number) {
     return await this.jobsService.getAllJobs(page);
   }
@@ -26,7 +26,7 @@ export class JobsController {
   async createJob(@Req() req: any, @Body() data: NewJobDto) {
     return await this.jobsService.createJob(data, req.user.id);
   }
-  @Patch('edit/:id')
+  @Put('edit/:id')
   async updateJob(@Param('id') id: string, @Body() data: NewJobDto) {
     return await this.jobsService.updateJob(id, data);
   }
