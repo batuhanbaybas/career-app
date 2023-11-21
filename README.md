@@ -18,7 +18,8 @@ To install the application, follow these steps:
 1. Clone the repository using `git clone https://github.com/batuhanbaybas/career-app.git`
 2. Install the dependencies using `npm install`
 3. Start the application using `npm run start:dev`
-4. Also you need the JWT_SECRET and DB_URL
+4. Create .env file on your soruce directory
+5. Create JWT_SECRET and DB_URL env. var and define that 
 
 ## Contributions
 
@@ -26,7 +27,7 @@ Contributions to this project are always welcome. If you find any issues or have
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License
 
 ## Acknowledgments
 
