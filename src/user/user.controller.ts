@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -21,13 +20,6 @@ export class UserController {
   @Get('me')
   getMe(@GetUser() user: User) {
     return user;
-  }
-  @Post('reset-password')
-  async resetPassword(
-    @Param('id') id: string,
-    @Body() data: { password: string },
-  ) {
-    return await this.userService.resetPassword(data, id);
   }
   @Put(':id')
   editMe(@Param('id') id: string, @Body() data: UpdateUserDto) {

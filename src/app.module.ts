@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { JobsModule } from './jobs/jobs.module';
 import { JobStatusModule } from './job-status/job-status.module';
 import { MailModule } from './mail/mail.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @Module({
   imports: [
@@ -19,6 +20,8 @@ import { MailModule } from './mail/mail.module';
     JobsModule,
     JobStatusModule,
     MailModule,
+    ResetPasswordModule,
   ],
+  controllers: [],
 })
 export class AppModule {}
