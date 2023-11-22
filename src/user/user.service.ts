@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update.user.dto';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import * as argo from 'argon2';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+    private config: ConfigService,
+  ) {}
   async updateMe(id: string, data: UpdateUserDto) {
     return await this.prisma.user.update({
       where: {
@@ -28,7 +34,9 @@ export class UserService {
 
   async resetPassword(data: { password: string }, id: string) {
     try {
-      const userId = await argo.hash(id);
+      const userId = await this.jwt.verify(id, {
+        secret: this.config.get('JWT_SECRET'),
+      });
       const password = await argo.hash(data.password);
       await this.prisma.user.update({
         where: {
