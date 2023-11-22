@@ -5,7 +5,7 @@ import { ForgetPasswordDto } from './dto/forget-password.dto';
 @Injectable()
 export class MailService {
   constructor(private mailerService: MailerService) {}
-  async resetPasswordMail(data: ForgetPasswordDto, resetLink: string) {
+  async sendResetPasswordMail(data: ForgetPasswordDto, resetLink: string) {
     return await this.mailerService.sendMail({
       to: data.email,
       subject: 'Şifre Sıfırlama İsteği',

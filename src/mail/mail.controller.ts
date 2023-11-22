@@ -15,7 +15,7 @@ export class MailController {
     private config: ConfigService,
   ) {}
   @Post('forget-password')
-  async resetPassword(@Body() data: ForgetPasswordDto) {
+  async sendResetPassword(@Body() data: ForgetPasswordDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         email: data.email,
@@ -33,6 +33,6 @@ export class MailController {
     );
 
     const resetLink = `http://localhost:3000/reset-password/${hash}`;
-    return await this.mailService.resetPasswordMail(data, resetLink);
+    return await this.mailService.sendResetPasswordMail(data, resetLink);
   }
 }
