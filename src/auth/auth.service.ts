@@ -56,7 +56,6 @@ export class AuthService {
     // take access token
     return this.signToken(user.id, user.email);
   }
-
   async signToken(
     userID: string,
     email: string,
@@ -69,5 +68,9 @@ export class AuthService {
     return {
       access_token: token,
     };
+  }
+
+  async forgetPassword() {
+    return console.log('forget password');
   }
 }
