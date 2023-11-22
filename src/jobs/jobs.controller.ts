@@ -22,6 +22,10 @@ export class JobsController {
   async getAllJobs(@Req() req: any, @Query('page') page: number) {
     return await this.jobsService.getAllJobs(page, req.user.id);
   }
+  @Get(':id')
+  async getJob(@Req() req: any, @Param('id') id: string) {
+    return await this.jobsService.getJob(id, req.user.id);
+  }
   @Post('new')
   async createJob(@Req() req: any, @Body() data: NewJobDto) {
     return await this.jobsService.createJob(data, req.user.id);

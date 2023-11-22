@@ -18,18 +18,33 @@ export class JobsService {
           createdAt: 'desc',
         },
         include: {
-          user: true,
+          jobStatus: true,
         },
       });
 
       // delete all user passwords from the response
-      await jobs.map((job) => delete job.user.password);
       return {
         success: true,
         data: jobs,
       };
     } catch (error) {
       return { status: false, message: error.message };
+    }
+  }
+  async getJob(id: string, userId: string) {
+    try {
+      const job = await this.prisma.jobs.findFirst({
+        where: {
+          id,
+          userID: userId,
+        },
+        include: {
+          jobStatus: true,
+        },
+      });
+      return { success: true, data: job };
+    } catch (error) {
+      return { success: false, message: error.message };
     }
   }
   async createJob(data, id: string) {

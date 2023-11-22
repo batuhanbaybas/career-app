@@ -12,14 +12,12 @@ datasource db {
 }
 
 model User {
-  id        String      @id @default(uuid())
-  email     String      @unique
-  name      String?     @default("")
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?  @default("")
   password  String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  jobs      Jobs[]
-  JobStatus JobStatus[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model JobStatus {
@@ -28,7 +26,6 @@ model JobStatus {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  user      User?    @relation(fields: [userId], references: [id])
   jobs      Jobs[]
 
   @@index([userId])
@@ -46,8 +43,7 @@ model Jobs {
   updatedAt   DateTime   @updatedAt
   userID      String
   jobStatusId String?
-  user        User?      @relation(fields: [userID], references: [id])
-  JobStatus   JobStatus? @relation(fields: [jobStatusId], references: [id])
+  jobStatus   JobStatus? @relation(fields: [jobStatusId], references: [id])
 
   @@index([jobStatusId])
   @@index([userID])

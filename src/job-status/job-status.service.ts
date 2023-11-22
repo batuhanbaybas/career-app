@@ -11,21 +11,32 @@ export class JobStatusService {
         where: {
           userId: id,
         },
+        include: {
+          jobs: true,
+        },
       });
       return { status: true, data: status };
     } catch (error) {
       return { status: false, message: error.message };
     }
   }
-  async getStatus(id: string, userId) {
+  async getStatus(id: string, userId: string) {
+    console.log(id, userId);
     try {
-      await this.prisma.jobStatus.findFirst({
+      const status = await this.prisma.jobStatus.findFirst({
         where: {
           id: id,
           userId: userId,
         },
+        include: {
+          jobs: true,
+        },
       });
-    } catch (error) {}
+      console.log(status);
+      return { status: true, data: status };
+    } catch (error) {
+      return { status: false, message: error.message };
+    }
   }
   async createStatus(data: NewStatusDto, id: string) {
     try {

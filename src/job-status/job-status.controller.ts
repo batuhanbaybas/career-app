@@ -16,25 +16,25 @@ import { NewStatusDto } from './dto/new-status.dto';
 @UseGuards(JwtAuthGuard)
 @Controller('job-status')
 export class JobStatusController {
-  constructor(private jonStatusService: JobStatusService) {}
+  constructor(private jobStatusService: JobStatusService) {}
   @Get('/all')
   async findAll(@Req() req: any) {
-    return await this.jonStatusService.getAllStatus(req.user.id);
+    return await this.jobStatusService.getAllStatus(req.user.id);
   }
-  @Get(':id')
-  findOne(@Req() req: any, @Param('id') id: string) {
-    return this.jonStatusService.getStatus(id, req.user.id);
+  @Get('/:id')
+  async findOne(@Req() req: any, @Param('id') id: string) {
+    return await this.jobStatusService.getStatus(id, req.user.id);
   }
   @Post('/new')
-  createOne(@Req() req: any, @Body() data: NewStatusDto) {
-    return this.jonStatusService.createStatus(data, req.user.id);
+  async createOne(@Req() req: any, @Body() data: NewStatusDto) {
+    return await this.jobStatusService.createStatus(data, req.user.id);
   }
   @Put('/edit/:id')
-  editOne(@Param('id') id: string, @Body() data: NewStatusDto) {
-    return this.jonStatusService.updateStatus(id, data);
+  async editOne(@Param('id') id: string, @Body() data: NewStatusDto) {
+    return await this.jobStatusService.updateStatus(id, data);
   }
-  @Delete(':id')
+  @Delete('/:id')
   async deleteOne(@Param('id') id: string) {
-    return await this.jonStatusService.deleteStatus(id);
+    return await this.jobStatusService.deleteStatus(id);
   }
 }
