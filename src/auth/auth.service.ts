@@ -29,7 +29,6 @@ export class AuthService {
       return this.signToken(user.id, user.email);
     } catch (error) {
       if (error) {
-        console.log(error.code);
         if (error.code === 'P2002') {
           throw new ForbiddenException('User already exists!');
         }
@@ -68,9 +67,5 @@ export class AuthService {
     return {
       access_token: token,
     };
-  }
-
-  async forgetPassword() {
-    return console.log('forget password');
   }
 }
