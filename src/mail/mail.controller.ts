@@ -22,7 +22,10 @@ export class MailController {
       },
     });
     if (!user) {
-      return 'User not found!';
+      return {
+        status: false,
+        message: 'User not found',
+      };
     }
     const hash = this.jwt.sign(
       { id: user.id },
