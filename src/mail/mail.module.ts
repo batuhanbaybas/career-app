@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { MailController } from './mail.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { MailService } from './mail.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    JwtModule,
     MailerModule.forRoot({
       transport: {
         host: 'localhost',
