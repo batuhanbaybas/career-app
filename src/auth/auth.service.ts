@@ -33,7 +33,6 @@ export class AuthService {
           throw new ForbiddenException('User already exists!');
         }
       }
-
       throw new ForbiddenException('Something went wrong!');
     }
   }
